@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run lint-staged — only lints files staged for this commit
+# This is fast because it skips files you haven't touched
+npx lint-staged
