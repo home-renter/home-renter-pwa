@@ -12,15 +12,17 @@
     "check": "npm run lint && npm run prettier"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
     "eslint": "^9.0.0",
     "eslint-config-next": "^14.2.35",
-    "@typescript-eslint/parser": "^7.0.0",
-    "@typescript-eslint/eslint-plugin": "^7.0.0",
     "eslint-config-prettier": "^10.1.8",
     "husky": "^8.0.0",
     "lint-staged": "^16.4.0",
     "prettier": "^3.8.3",
-    "turbo": "^2.9.6"
+    "turbo": "^2.9.6",
+    "typescript-eslint": "^8.58.2"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

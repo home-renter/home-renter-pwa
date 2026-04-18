@@ -4,3 +4,5 @@ dist/
 .next/
 .env.local
 *.env
+postgres_data
+redis_data

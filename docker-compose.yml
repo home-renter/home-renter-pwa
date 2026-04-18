@@ -1,0 +1,34 @@
+version: '3.9'
+
+services:
+  # ■■ PostgreSQL 16 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  # Stores all HOME RENTER application data.
+  # The postgis extension (added in Task 10) enables geospatial queries.
+  postgres:
+    image: postgis/postgis:16-3.4 # includes PostGIS extension
+    container_name: home-renter-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: homerenter
+      POSTGRES_PASSWORD: secret_dev
+      POSTGRES_DB: homerenter_dev
+    ports:
+      - '5432:5432'
+    volumes:
+      # Persist data across container restarts
+      - postgres_data:/var/lib/postgresql/data
+
+  # ■■ Redis 7 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  # Used for: session tokens, listing page cache, SSE channel registry.
+  redis:
+    image: redis:7-alpine
+    container_name: home-renter-redis
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:
