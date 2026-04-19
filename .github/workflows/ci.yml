@@ -1,0 +1,37 @@
+# HOME RENTER — Continuous Integration Workflow
+# Runs on every push to any branch and on every Pull Request targeting main.
+# Jobs: lint (ESLint) and typecheck (TypeScript tsc --noEmit)
+name: CI
+on:
+  push:
+    branches: ['**'] # All branches
+  pull_request:
+    branches: [main] # Only PRs targeting main trigger the full check
+jobs:
+  lint-and-typecheck:
+    name: Lint & Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Check out the code
+      - name: Checkout
+        uses: actions/checkout@v4
+      # Step 2: Set up pnpm (must be before Node setup to enable caching)
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      # Step 3: Set up Node.js with pnpm cache
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      # Step 4: Install all workspace dependencies
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      # Step 5: Run ESLint across all packages via Turborepo
+      - name: Lint
+        run: pnpm lint
+      # Step 6: Run TypeScript type checking across all packages
+      - name: Typecheck
+        run: pnpm typecheck
