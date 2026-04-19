@@ -6,3 +6,5 @@ dist/
 *.env
 postgres_data
 redis_data
+apps/api/.env.local
+apps/web/.env.local
