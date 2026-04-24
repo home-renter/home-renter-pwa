@@ -1,0 +1,14 @@
+version: 1
+services:
+  - type: web
+    name: home-renter-api
+    env: node
+    branch: main
+    root: apps/api
+    buildCommand: pnpm install && pnpm build
+    startCommand: pnpm start
+    envVars:
+      - key: DATABASE_URL
+        value: postgresql://postgres:qm2qEpS6rOot9DnY@db.edycybnrvftotnrxlkha.supabase.co:5432/postgres
+      - key: NODE_ENV
+        value: production
