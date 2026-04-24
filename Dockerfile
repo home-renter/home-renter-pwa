@@ -1,5 +1,8 @@
-# Use Bun base image
-FROM oven/bun:1
+# Use Node.js base image (pnpm is installed via npm)
+FROM node:20-alpine
+
+# Install pnpm globally
+RUN npm install -g pnpm
 
 # Set working directory to root of monorepo
 WORKDIR /app
@@ -12,16 +15,16 @@ COPY apps ./apps
 COPY packages ./packages
 
 # Install all dependencies (including workspace packages)
-RUN bun install
+RUN pnpm install --frozen-lockfile
 
 # Navigate to API folder and build
 WORKDIR /app/apps/api
 
 # Build the API
-RUN bun run build
+RUN pnpm run build
 
 # Expose port
 EXPOSE 3000
 
 # Start the app
-CMD ["bun", "run", "src/index.ts"]
+CMD ["pnpm", "run", "start"]
