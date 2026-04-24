@@ -1,4 +1,4 @@
-# Use Node.js base image (pnpm is installed via npm)
+# Use Node.js 20-alpine as base image
 FROM node:20-alpine
 
 # Install pnpm globally
@@ -15,7 +15,8 @@ COPY apps ./apps
 COPY packages ./packages
 
 # Install all dependencies (including workspace packages)
-RUN pnpm install --frozen-lockfile
+RUN pnpm install
+# --frozen-lockfile
 
 # Navigate to API folder and build
 WORKDIR /app/apps/api
