@@ -5,7 +5,7 @@ FROM oven/bun:1
 WORKDIR /app
 
 # Copy root package files first (for workspace resolution)
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY package.json bun.lockb pnpm-workspace.yaml ./
 
 # Copy all apps and packages
 COPY apps ./apps
