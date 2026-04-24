@@ -15,8 +15,8 @@ COPY apps ./apps
 COPY packages ./packages
 
 # Install all dependencies (including workspace packages)
+# Removed --frozen-lockfile to allow lockfile updates if needed
 RUN pnpm install
-# --frozen-lockfile
 
 # Navigate to API folder and build
 WORKDIR /app/apps/api
@@ -27,5 +27,5 @@ RUN pnpm run build
 # Expose port
 EXPOSE 3000
 
-# Start the app
+# Start the app (uses the 'start' script in package.json)
 CMD ["pnpm", "run", "start"]
