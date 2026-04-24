@@ -1,19 +1,23 @@
 # Use Bun base image
 FROM oven/bun:1
 
-# Set working directory
+# Set working directory to root of monorepo
 WORKDIR /app
 
-# Copy package files
-COPY package.json bun.lockb* ./
+# Copy root package files first (for workspace resolution)
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
-# Install dependencies
+# Copy all apps and packages
+COPY apps ./apps
+COPY packages ./packages
+
+# Install all dependencies (including workspace packages)
 RUN bun install --frozen-lockfile
 
-# Copy source code
-COPY . .
+# Navigate to API folder and build
+WORKDIR /app/apps/api
 
-# Build the app
+# Build the API
 RUN bun run build
 
 # Expose port
