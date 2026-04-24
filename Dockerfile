@@ -12,7 +12,7 @@ COPY apps ./apps
 COPY packages ./packages
 
 # Install all dependencies (including workspace packages)
-RUN bun install --frozen-lockfile
+RUN bun install 
 
 # Navigate to API folder and build
 WORKDIR /app/apps/api
