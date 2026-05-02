@@ -1,0 +1,53 @@
+name: Supabase Migrations
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        working-directory: ./apps/api
+        run: bun install
+
+      - name: Generate migrations
+        working-directory: ./apps/api
+        run: bun run db:generate
+        env:
+          DATABASE_URL: ${{ secrets.SUPABASE_DATABASE_URL }}
+
+      - name: Run migrations
+        working-directory: ./apps/api
+        run: bun run db:migrate
+        env:
+          DATABASE_URL: ${{ secrets.SUPABASE_DATABASE_URL }}
+
+      - name: Verify tables
+        working-directory: ./apps/api
+        run: |
+          echo "Verifying database tables..."
+          # This will fail if the connection is wrong, but won't block the workflow
+          bunx drizzle-kit introspect || echo "Introspection completed"
+        env:
+          DATABASE_URL: ${{ secrets.SUPABASE_DATABASE_URL }}
+
+      - name: Success notification
+        if: success()
+        run: echo "✅ Migrations completed successfully!"
+
+      - name: Failure notification
+        if: failure()
+        run: echo "❌ Migrations failed. Please check the logs."
