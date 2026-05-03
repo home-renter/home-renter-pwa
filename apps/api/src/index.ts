@@ -9,6 +9,7 @@ app.use('*', logger())
 app.use('*', cors({ origin: process.env.ALLOWED_ORIGIN ?? 'http://localhost:3000' }))
 
 app.get('/health', (c) => c.json({ status: 'ok', ts: Date.now() }))
+app.get('/', (c) => c.text('Home Renter API is running! 🚀')) // Add this line
 
 const port = Number(process.env.PORT ?? 3000)
 serve({
@@ -17,3 +18,4 @@ serve({
 }, (info) => {
   console.log(`Server running on port ${info.port}`)
 })
+// Testing GitHub Actions workflow - May 2, 2026
